@@ -1,0 +1,32 @@
+const mongoose=require('mongoose');
+const Schema=new mongoose.Schema({
+    title:{
+        type:String,
+        required:true
+    },
+    cover:{
+        type:String
+    },
+    author:String,
+    label:String,
+    url:{
+        type:String,
+        required:true
+    },
+    intro:{
+        type:String
+    },
+    reads:{
+        type:Number,
+        default:0
+    }
+},{
+    timestamps:true
+})
+Schema.virtual('commends',{
+    ref:'VideoCommend',
+    localField:'_id',
+    foreignField:'parent',
+    justOne:false
+})
+module.exports=mongoose.model('Video',Schema)

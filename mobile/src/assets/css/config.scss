@@ -1,0 +1,80 @@
+$base-font-size:1rem;
+$colors:(
+    'blue': #1E90FF,
+    'blue-1':#4169E1,
+    'red': 	#FF0000,
+    'green' :#04bb04,
+    'yellow':	#FFFF00,
+    'orange':#FFA500,
+    'tomato':#FF6347,
+    'purple':	#8A2BE2,
+    'black':#000,
+    'dark':#333,
+    'dark-6':#666,
+    'white':#fff,
+    'grey':#999,
+    'l-grey':rgb(226, 226, 226),
+    'grey-0':rgb(241, 241, 241),
+    'grey-1':rgb(241, 241, 241),
+    'bg':rgb(245, 245, 245),
+    'steel':#4566b9
+);
+$font-sizes:(
+    'xs':0.5,
+    's':0.625,
+    'sm':0.7,
+    'm':0.8125,
+    'l':0.9375,
+    'xl':1.0625,
+    'xxl':1.25,
+    'lx':1.4375,
+    'lxx':1.75
+);
+$space-base-size:1rem;
+$space-types:('m':margin,'p':padding);
+$space-dirs:('t':top,'b':bottom,'l':left,'r':right);
+$space-sizes:(
+    '0':0,
+    '1':0.25,
+    '2':0.5,
+    '3':1,
+    '4':1.5,
+    '5':2,
+    '6':3
+);
+$flex-jc:(
+    'start':flex-start,
+    'end':flex-end,
+    'center':center,
+    'between':space-between,
+    'around':space-around
+);
+$flex-ai:(
+    'start':flex-start,
+    'end':flex-end,
+    'center':center,
+    'stretch':stretch
+);
+$percent-sizes:(
+    10:10%,
+    20:20%,
+    30:30%,
+    40:40%,
+    50:50%,
+    60:60%,
+    70:70%,
+    80:80%,
+    90:90%,
+    100:100%,
+);
+$rem-sizes:(
+    5:0.3125,
+    10:0.625,
+    20:1.25,
+    30:1.875,
+    40:2.5,
+    50:3.125,
+    60:3.75,
+    70:4.375,
+    100:6.25
+)

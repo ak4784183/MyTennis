@@ -1,0 +1,32 @@
+const mongoose=require('mongoose');
+const Schema=new mongoose.Schema({
+    article:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'Article'
+    },
+    content:{type:String},
+    from:{type:mongoose.SchemaTypes.ObjectId,ref:'User'},
+    to:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'ArtCommend'
+    },
+    reply:{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'User'
+    },
+},{
+    timestamps:true
+})
+Schema.virtual('childs',{
+    ref:'ArtCommend',
+    localField:'_id',
+    foreignField:'to',
+    justOne:false
+})
+Schema.virtual('fabulous',{
+    ref:'ArtFabulou',
+    localField:'_id',
+    foreignField:'from',
+    justOne:false
+})
+module.exports=mongoose.model('ArtCommend',Schema);

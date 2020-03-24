@@ -1,0 +1,70 @@
+@import "@/assets/css/config.scss";
+.mint-toast{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .mint-toast-icon{
+        width: 6rem;
+        line-height: 4rem;
+        font-size:  4rem;
+    }
+    .mint-toast-text{
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+}
+.mint-navbar{
+    .mint-tab-item{
+        .mint-tab-item-label{
+            color: map-get($map: $colors, $key: 'white');
+        }
+    }
+    .is-selected{
+        border-bottom: 3px solid transparent !important;
+        .mint-tab-item-label{
+            color: map-get($map: $colors, $key: "blue") !important;
+            font-size: 0.83rem !important;
+        }
+    }
+}
+// 加载提示的样式修改
+.mint-indicator-wrapper {
+    z-index: 99 !important;
+  }
+  .mint-indicator-mask {
+    z-index: 99 !important;
+  }
+
+.navbar::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+// .navbar{
+//     overflow: scroll;
+//     scrollbar-width: none; /* Firefox */
+//     -ms-overflow-style: none;
+    
+//     .wrap{
+//         display: inline-flex;
+//         align-items: center;
+//         flex-wrap: nowrap;
+//         .item{
+//             display: inline-flex;
+//             justify-content: center;
+//             padding-bottom: 3px;
+//             border-bottom: 3px solid transparent !important;   
+//             font-size: map-get($map: $font-sizes, $key: 'fs-s');
+//         }
+        
+        
+//     }
+//     .child{
+//         padding-bottom: 3px;
+//         border-bottom: 3px solid transparent !important;   
+//         font-size: map-get($map: $font-sizes, $key: 'fs-s');
+//     }
+//     .active-white{
+//         line-height: 100%;
+//         color:map-get($map: $colors, $key: "white") ;
+//         border-bottom: 3px solid map-get($map: $colors, $key: "white") !important;
+//     }
+// }
