@@ -20,18 +20,7 @@
                 >文章评论</el-menu-item
               >
             </el-menu-item-group>
-            <el-menu-item-group>
-              <template slot="title">球员管理</template>
-              <el-menu-item index="/player/list">球员列表</el-menu-item>
-              <el-menu-item index="/player/create">新建球员</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <template slot="title">赛事管理</template>
-              <el-menu-item index="/match/list">赛事列表</el-menu-item>
-              <el-menu-item index="/match/create">新建赛事</el-menu-item>
-              <el-menu-item index="/contest/list">比赛列表</el-menu-item>
-              <el-menu-item index="/contest/create">添加比赛</el-menu-item>
-            </el-menu-item-group>
+
             <el-menu-item-group>
               <template slot="title">视频管理</template>
               <el-menu-item index="/video/list">视频列表</el-menu-item>
@@ -45,6 +34,23 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
+            <template slot="title"
+              ><i class="el-icon-s-data"></i>数据信息</template
+            >
+            <el-menu-item-group>
+              <template slot="title">球员管理</template>
+              <el-menu-item index="/player/list">球员列表</el-menu-item>
+              <el-menu-item index="/player/create">新建球员</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <template slot="title">赛事管理</template>
+              <el-menu-item index="/match/list">赛事列表</el-menu-item>
+              <el-menu-item index="/match/create">新建赛事</el-menu-item>
+              <el-menu-item index="/contest/list">比赛列表</el-menu-item>
+              <el-menu-item index="/contest/create">添加比赛</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="3">
             <template slot="title"
               ><i class="el-icon-document-copy"></i>装备管理</template
             >
@@ -62,7 +68,7 @@
               <el-menu-item index="/product/create">新建装备详情</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="3">
+          <el-submenu index="4">
             <template slot="title"
               ><i class="el-icon-chat-dot-round"></i>论坛管理</template
             >
@@ -73,7 +79,7 @@
               <!-- <el-menu-item index="/admin/create">添加管理员</el-menu-item> -->
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="4">
+          <el-submenu index="5">
             <template slot="title"
               ><i class="el-icon-user-solid"></i>用户管理</template
             >
@@ -88,7 +94,7 @@
               <el-menu-item index="/user/list">用户列表</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="5">
+          <el-submenu index="6">
             <template slot="title"
               ><i class="el-icon-stopwatch"></i>数据管理</template
             >

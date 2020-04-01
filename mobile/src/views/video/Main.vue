@@ -49,7 +49,7 @@ export default {
       videos: [],
       loading: false,
       noMore: false,
-      limit: 3,
+      limit: 10,
       page: 0
     };
   },
@@ -73,6 +73,7 @@ export default {
       return res;
     },
     async searchVideo(text) {
+      this.page = 0;
       this.search = text;
       this.videos = await this.fetchVideos();
     },

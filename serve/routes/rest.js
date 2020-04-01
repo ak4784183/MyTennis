@@ -13,37 +13,28 @@ module.exports = app =>{
   /* 管理端通用接口 */
   app.use('/admin/api/rest/:resource',autoMiddleWare(),resourceMiddleWare(),router)
   
-  
   router.get('/', async(req, res) =>{
     let queryOption={};
     let condition={}
-    
-    if(req.query.query){
-      condition.title=new RegExp(req.query.title,'i')       
-    }
     // 搜索
     if(req.query.match){
       const obj=JSON.parse(req.query.match);
       condition[obj.key]=new RegExp(obj.val,'i');   
     }
-    // 搜索
+    // 匹配
     if(req.query.where){
       queryOption.where=JSON.parse(req.query.where);   
     }
-    
-    if(req.query.name){
-      condition.name=new RegExp(req.query.name,'i')          
-    }
+    //分页   
     if(req.query.page &&req.query.limit){
       queryOption.limit=Number(req.query.limit)
       queryOption.skip=Number(req.query.page)*Number(req.query.limit)  
     }
+    //填充
     if(req.query.populate){
       queryOption.populate=JSON.parse(req.query.populate);    
     }
-    
-    const items=await req.Model.find(condition).setOptions(queryOption).lean();  
-    
+    const items=await req.Model.find(condition).setOptions(queryOption).lean();    
     res.send(items)
   });
   router.get('/:id', async(req, res) =>{
@@ -51,12 +42,22 @@ module.exports = app =>{
     if(req.query.populate){
       queryOption.populate=JSON.parse(req.query.populate);    
     }
-    const model=await req.Model.findById(req.params.id).setOptions(queryOption).lean();
-    
+    const model=await req.Model.findById(req.params.id).setOptions(queryOption).lean();   
     res.send(model);
   });
   router.get('/count/page', async(req, res) =>{
-    const amount=await req.Model.find().countDocuments();
+    let queryOption={};
+    let condition={}
+    // 搜索
+    if(req.query.match){
+      const obj=JSON.parse(req.query.match);
+      condition[obj.key]=new RegExp(obj.val,'i');   
+    }
+    // 匹配
+    if(req.query.where){
+      queryOption.where=JSON.parse(req.query.where);   
+    }
+    const amount=await req.Model.find(condition).setOptions(queryOption).countDocuments();
     res.send(amount)
   });
   router.post('/', async(req, res) =>{

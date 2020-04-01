@@ -1,5 +1,36 @@
 <template>
   <div>
+    <el-row>
+      <el-date-picker
+        v-model="duration"
+        type="datetimerange"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        :default-time="['12:00:00']"
+        @change="
+          () => {
+            page = 0;
+            fetch();
+          }
+        "
+      >
+      </el-date-picker>
+      <el-select
+        style="margin-left:2rem;"
+        v-model="matchid"
+        filterable
+        clearable
+        placeholder="筛选比赛类型"
+      >
+        <el-option
+          v-for="(item, index) in matches"
+          :key="index"
+          :label="item.label"
+          :value="item['_id']"
+        >
+        </el-option>
+      </el-select>
+    </el-row>
     <el-table :data="cateList" stripe>
       <el-table-column label="时间" width="250">
         <template slot-scope="scope">
@@ -55,31 +86,92 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="text-align:center;margin-top:1rem;">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="limit"
+        @prev-click="page -= 1"
+        @next-click="page += 1"
+        @current-change="val => (page = val - 1)"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      query: "",
+      page: 0,
+      limit: 10,
+      total: 0,
+      matches: [],
+      matchid: "",
+      duration: null,
       cateList: []
     };
   },
+  watch: {
+    matchid() {
+      this.page = 0;
+      this.fetch();
+    },
+    query() {
+      if (this.query == "") {
+        this.fetch();
+      }
+    },
+    page() {
+      this.fetch();
+    }
+  },
   created() {
     this.fetch();
+    this.fetchMatch();
   },
   methods: {
     async fetch() {
+      const option = {};
+      if (this.duration !== null && this.duration.length > 0) {
+        option.date = { $gt: this.duration[0], $lt: this.duration[1] };
+      }
+      if (this.matchid) {
+        option.match = this.matchid;
+      }
       const res = await this.$http({
         method: "GET",
         url: "/rest/contests",
         params: {
+          where: option,
           populate: {
             path: "host guest match"
-          }
+          },
+          limit: this.limit,
+          page: this.page
         }
       });
       this.cateList = res.data;
-      console.log(this.cateList);
+      const _total = await this.$http({
+        method: "GET",
+        url: "/rest/contests/count/page",
+        params: {
+          where: option
+        }
+      });
+      this.total = _total.data;
+    },
+    async fetchMatch() {
+      const res = await this.$http({
+        method: "GET",
+        url: "rest/matches"
+      });
+      this.matches = res.data.map(v => {
+        v.label = v.title;
+        return v;
+      });
     },
     async handleEdit(id) {
       this.$router.push(`edit/${id}`);

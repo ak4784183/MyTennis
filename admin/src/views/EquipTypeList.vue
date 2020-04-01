@@ -6,10 +6,11 @@
         v-model="query"
         class="search-input"
         style="width:23rem;margin-right:1rem;"
-        @keyup.native="queryItems"
       >
       </el-input>
-      <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="fetch"
+        >搜索</el-button
+      >
     </el-row>
     <el-table :data="dataList" stripe>
       <el-table-column prop="title" label="分类名称"></el-table-column>
@@ -30,10 +31,9 @@
     </el-table>
     <div style="text-align:center;margin-top:1rem;">
       <el-pagination
-        v-show="query == ''"
         background
         layout="prev, pager, next"
-        :total="this.total"
+        :total="total"
         :page-size="limit"
         @prev-click="page -= 1"
         @next-click="page += 1"
@@ -46,6 +46,11 @@
 <script>
 export default {
   watch: {
+    query() {
+      if (this.query == "") {
+        this.fetch();
+      }
+    },
     page() {
       this.fetch();
     }
@@ -54,7 +59,7 @@ export default {
     return {
       query: "",
       page: 0,
-      limit: 8,
+      limit: 10,
       total: 0,
       dataList: []
     };
@@ -68,6 +73,10 @@ export default {
         method: "GET",
         url: "/rest/equip_type",
         params: {
+          match: {
+            key: "title",
+            val: this.query
+          },
           populate: {
             path: "parent"
           },
@@ -77,7 +86,21 @@ export default {
       });
       this.dataList = res.data;
 
-      const res2 = await this.$http.get("/rest/equip_type/count/page");
+      const res2 = await this.$http({
+        method: "GET",
+        url: "/rest/equip_type/count/page",
+        params: {
+          match: {
+            key: "title",
+            val: this.query
+          },
+          populate: {
+            path: "parent"
+          },
+          limit: this.limit,
+          page: this.page
+        }
+      });
       this.total = res2.data;
     },
     async handleEdit(id) {
@@ -89,18 +112,6 @@ export default {
     },
     handlePageIndex(val) {
       this.page = val - 1;
-    },
-    async queryItems() {
-      if (this.query === "") {
-        this.fetch();
-      } else {
-        const res = await this.$http.get("/rest/equip_type", {
-          params: {
-            title: this.query
-          }
-        });
-        this.dataList = res.data;
-      }
     }
   }
 };

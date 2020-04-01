@@ -49,63 +49,72 @@
           <ArtItem :list="item.articles" :catTitle="item.title"></ArtItem>
         </div> </swiper-slide
       ><swiper-slide>
-        <div v-for="item in matchPage.list" :key="item['_id']">
-          <div class="bg-grey-1 fs-l p-2 d-flex jc-between fw">
-            <span>
-              {{ item.date | formatMDcn }} 星期{{ item.date | formatWK }}
-            </span>
-            <span>{{ item.date | formatYear }}{{ item.match.title }}</span>
-          </div>
-          <div class="d-flex p-2">
-            <div class="d-flex flex-coloum jc-center ai-center">
-              <span class="fs-l text-black">{{ item.date | formatDM }}</span>
-              <span class="fs-m text-dark-6" v-if="item.round"
-                >第{{ item.round }}轮</span
-              >
+        <MyLoadMore
+          v-if="matchPage.list.length > 0"
+          :loading="matchPage.loading"
+          :noMore="matchPage.noMore"
+          @loadMore="
+            loadMore(matchPage, fetchMatch, matchPage.list, selected, 1)
+          "
+        >
+          <li v-for="item in matchPage.list" :key="item['_id']">
+            <div class="bg-grey-1 fs-l p-2 d-flex jc-between fw">
+              <span>
+                {{ item.date | formatMDcn }} 星期{{ item.date | formatWK }}
+              </span>
+              <span>{{ item.date | formatYear }}年{{ item.match.title }}</span>
             </div>
-            <div class="flex-1 d-flex fs-sm fw text-dark px-1">
-              <div class="flex-1 d-flex flex-coloum ai-center jc-center">
-                <p
-                  class="text-center"
-                  v-for="player in item.host"
-                  :key="player['_id']"
+            <div class="d-flex p-2">
+              <div class="d-flex flex-coloum jc-center ai-center">
+                <span class="fs-l text-black">{{ item.date | formatDM }}</span>
+                <span class="fs-m text-dark-6" v-if="item.round"
+                  >第{{ item.round }}轮</span
                 >
-                  {{ player.cname }}
-                </p>
               </div>
-              <div class="d-flex ai-center text-orange">
-                VS
+              <div class="flex-1 d-flex fs-sm fw text-dark px-1">
+                <div class="flex-1 d-flex flex-coloum ai-center jc-center">
+                  <p
+                    class="text-center"
+                    v-for="player in item.host"
+                    :key="player['_id']"
+                  >
+                    {{ player.cname }}
+                  </p>
+                </div>
+                <div class="d-flex ai-center text-orange">
+                  VS
+                </div>
+                <div class="flex-1 d-flex flex-coloum ai-center jc-center">
+                  <p
+                    class="text-center"
+                    v-for="player in item.guest"
+                    :key="player['_id']"
+                  >
+                    {{ player.cname }}
+                  </p>
+                </div>
               </div>
-              <div class="flex-1 d-flex flex-coloum ai-center jc-center">
-                <p
-                  class="text-center"
-                  v-for="player in item.guest"
-                  :key="player['_id']"
+              <div class="d-flex flex-coloum">
+                <span
+                  :class="
+                    item.hostscore > item.guestscore
+                      ? 'text-tomato'
+                      : 'text-dark-6'
+                  "
+                  >{{ item.hostscore }}</span
                 >
-                  {{ player.cname }}
-                </p>
+                <span
+                  :class="
+                    item.guestscore > item.hostscore
+                      ? 'text-tomato'
+                      : 'text-dark-6'
+                  "
+                  >{{ item.guestscore }}</span
+                >
               </div>
             </div>
-            <div class="d-flex flex-coloum">
-              <span
-                :class="
-                  item.hostscore > item.guestscore
-                    ? 'text-tomato'
-                    : 'text-dark-6'
-                "
-                >{{ item.hostscore }}</span
-              >
-              <span
-                :class="
-                  item.guestscore > item.hostscore
-                    ? 'text-tomato'
-                    : 'text-dark-6'
-                "
-                >{{ item.guestscore }}</span
-              >
-            </div>
-          </div>
-        </div>
+          </li>
+        </MyLoadMore>
       </swiper-slide>
       <swiper-slide>
         <div class="d-flex bb-l letter-s1 ">
@@ -135,6 +144,7 @@
               class="py-2 pl-4 pr-3 d-flex ai-center bb-l"
               v-for="(item, index) in dataPage.ATP"
               :key="index"
+              @click="routeByName('player', item['_id'])"
             >
               <span
                 :class="[
@@ -175,6 +185,7 @@
               class="py-2 pl-4 pr-3  d-flex ai-center bb-l"
               v-for="(item, index) in dataPage.WTA"
               :key="index"
+              @click="routeByName('player', item['_id'])"
             >
               <span
                 :class="[
@@ -216,7 +227,9 @@
           :flexWrap="true"
           :loading="playerPage.loading"
           :noMore="playerPage.noMore"
-          @loadMore="loadMore(playerPage, fetchPlayer, playerPage.list)"
+          @loadMore="
+            loadMore(playerPage, fetchPlayer, playerPage.list, selected, 3)
+          "
         >
           <li
             class="w-50 p-2"
@@ -270,9 +283,11 @@ export default {
         ]
       },
       matchPage: {
-        limit: 20,
+        limit: 6,
         page: 0,
-        list: []
+        list: [],
+        loading: false,
+        noMore: false
       },
       playerPage: {
         search: "",
@@ -298,10 +313,15 @@ export default {
     this.fetchSwipers();
     this.fetchCategories();
     this.fetchRank();
-    this.fetchMatch();
+    this.initMatchPage();
     this.initPlayerPage();
   },
   methods: {
+    async initMatchPage() {
+      this.matchPage.page = 0;
+      this.matchPage.noMore = false;
+      this.matchPage.list = await this.fetchMatch();
+    },
     async initPlayerPage() {
       this.playerPage.page = 0;
       this.playerPage.noMore = false;
@@ -318,7 +338,7 @@ export default {
     },
     async fetchMatch() {
       const option = this.matchPage;
-      this.matchPage.list = await this.fetch("rest/contest", {
+      return await this.fetch("rest/contest", {
         limit: option.limit,
         page: option.page,
         sort: {

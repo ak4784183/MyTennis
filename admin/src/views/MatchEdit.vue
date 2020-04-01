@@ -5,44 +5,13 @@
       label-width="100px"
       @submit.native.prevent="save"
     >
-      <h1>{{ id ? "编辑" : "新建" }}排名数据</h1>
-      <!-- <el-form-item label="类别">
-        <el-radio v-model="model.type" :label="false"
-          >国际女子网球协会(WTA)</el-radio
-        ><el-radio v-model="model.type" :label="true"
-          >职业网球联合会(ATP)</el-radio
-        >
-      </el-form-item> -->
-      <!-- <el-form-item label="赛事">
-        <el-select
-          v-model="model.matches"
-          filterable
-          placeholder="请先选择赛事类别"
-        >
-          <el-option
-            v-for="(item, index) in matches"
-            :key="index"
-            :label="item.label"
-            :value="item['_id']"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item> -->
+      <h1>{{ id ? "编辑" : "新建" }}赛事</h1>
       <el-form-item label="名称">
-        <el-input type="text" v-model="model.title"></el-input>
+        <el-input type="text" v-model.trim="model.title"></el-input>
       </el-form-item>
-      <!-- <el-form-item>
-        <el-date-picker
-          v-model="model.duration"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        >
-        </el-date-picker>
-      </el-form-item> -->
+
       <el-form-item label="举办地">
-        <el-input type="text" v-model="model.place"></el-input>
+        <el-input type="text" v-model.trim="model.place"></el-input>
       </el-form-item>
       <el-form-item label="场地类型">
         <el-radio v-model="model.sitetype" label="草地">草地</el-radio
@@ -62,7 +31,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit" :disabled="isValid">{{
           id ? "保存" : "添加"
         }}</el-button>
         <el-button type="danger" @click.prevent="$router.back()"
@@ -85,9 +54,15 @@ export default {
   data() {
     return {
       model: {
+        title: "",
         contest: []
       }
     };
+  },
+  computed: {
+    isValid() {
+      return this.model.title == "";
+    }
   },
   // computed: {
   //   duration() {

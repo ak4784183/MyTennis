@@ -14,34 +14,34 @@
       <mt-field
         label="账户名"
         placeholder="带有英文和数字的账户名"
-        v-model="model.username"
+        v-model.trim="model.username"
         :state="fieldState[fieldItems.username]"
       ></mt-field>
       <mt-field
         label="密码"
         placeholder="6-20位带有英文和数字的密码"
         type="password"
-        v-model="model.password"
+        v-model.trim="model.password"
         :state="fieldState[fieldItems.password]"
       ></mt-field>
       <mt-field
         label="昵称"
         placeholder="不超过10位的昵称"
-        v-model="model.nickname"
+        v-model.trim="model.nickname"
         :state="fieldState[fieldItems.nickname]"
       ></mt-field>
       <mt-field
         label="邮箱"
         placeholder="请输入邮箱"
         type="email"
-        v-model="model.email"
+        v-model.trim="model.email"
         :state="fieldState[fieldItems.email]"
       ></mt-field>
       <mt-field
         label="手机号"
         placeholder="请输入手机号"
         type="tel"
-        v-model="model.tel"
+        v-model.trim="model.tel"
         :state="fieldState[fieldItems.tel]"
       ></mt-field>
     </form>

@@ -6,10 +6,11 @@
         v-model="query"
         class="search-input"
         style="width:23rem;margin-right:1rem;"
-        @keyup.native="queryItems"
       >
       </el-input>
-      <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="fetch"
+        >搜索</el-button
+      >
     </el-row>
     <el-table :data="list" stripe>
       <el-table-column
@@ -63,6 +64,11 @@ export default {
     this.fetch();
   },
   watch: {
+    query() {
+      if (this.query == "") {
+        this.fetch();
+      }
+    },
     page() {
       this.fetch();
     }
@@ -73,6 +79,10 @@ export default {
         method: "GET",
         url: "/rest/video_commend",
         params: {
+          match: {
+            key: "content",
+            val: this.query
+          },
           populate: {
             path: "user"
           },
@@ -82,7 +92,16 @@ export default {
       });
       this.list = res.data;
 
-      const res2 = await this.$http.get("/rest/video_commend/count/page");
+      const res2 = await this.$http({
+        method: "GET",
+        url: "/rest/video_commend/count/page",
+        params: {
+          match: {
+            key: "content",
+            val: this.query
+          }
+        }
+      });
       this.total = res2.data;
     },
     async handleDelete(item) {
@@ -112,26 +131,6 @@ export default {
     },
     handlePageIndex(val) {
       this.page = val - 1;
-    },
-    async queryItems() {
-      if (this.query === "") {
-        this.fetch();
-      } else {
-        const res = await this.$http({
-          method: "GET",
-          url: "/rest/video_commend",
-          params: {
-            populate: {
-              path: "user"
-            },
-            match: {
-              key: "content",
-              val: this.query
-            }
-          }
-        });
-        this.list = res.data;
-      }
     }
   }
 };

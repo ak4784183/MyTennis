@@ -109,7 +109,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit" :disabled="isValid">{{
           id ? "保存" : "添加"
         }}</el-button>
         <el-button type="danger" @click.prevent="$router.back()"
@@ -131,6 +131,22 @@ export default {
     this.fetchMatch();
     this.fetchPlayer();
   },
+  computed: {
+    isValid() {
+      const obj = this.model;
+      if (
+        obj.host &&
+        obj.host.length > 0 &&
+        obj.guest && obj.guest.length > 0 &&
+        obj.match &&
+        obj.date
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  },
   data() {
     return {
       model: {},
@@ -146,12 +162,7 @@ export default {
     async fetchPlayer() {
       const res = await this.$http({
         method: "GET",
-        url: "rest/players",
-        params: {
-          where: {
-            retire: false
-          }
-        }
+        url: "rest/players"
       });
       this.players = res.data.map(v => {
         v.label = v.cname;

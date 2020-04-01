@@ -11,19 +11,19 @@ module.exports=app=>{
     });
     app.post('/admin/api/uploads',upload.single('file'),async(req,res)=>{
         const file=req.file;
-        file.url='http://localhost:3000/uploads/imgs/'+file.filename;
+        file.url='http://localhost:5000/uploads/imgs/'+file.filename;
         await Temp.create({type:true,filename:file.filename});
         res.send(file)
     })
     app.post('/admin/api/uploads/video',video.single('file'),async(req,res)=>{
         const file=req.file;
-        file.url='http://localhost:3000/uploads/video/'+file.filename  
+        file.url='http://localhost:5000/uploads/video/'+file.filename  
         await Temp.create({type:false,filename:file.filename});     
         res.send(file)
     })
     app.post('/mobile/api/uploads',upload.single('file'),async(req,res)=>{
         const file=req.file;
-        file.url='http://localhost:3000/uploads/imgs/'+file.filename       
+        file.url='http://localhost:5000/uploads/imgs/'+file.filename       
         res.send(file)
     })
 

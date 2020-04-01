@@ -8,7 +8,9 @@
         style="width:20rem;margin-right:1rem;"
       >
       </el-input>
-      <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="fetch"
+        >搜索</el-button
+      >
     </el-row>
     <el-table :data="productList" stripe>
       <el-table-column prop="name" label="装备名称"></el-table-column>
@@ -44,7 +46,7 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="this.total"
+        :total="total"
         :page-size="limit"
         @prev-click="page -= 1"
         @next-click="page += 1"
@@ -69,6 +71,11 @@ export default {
     this.fetch();
   },
   watch: {
+    query() {
+      if (this.query === "") {
+        this.fetch();
+      }
+    },
     page() {
       this.fetch();
     }
@@ -79,16 +86,29 @@ export default {
         method: "GET",
         url: "/rest/products",
         params: {
+          match: {
+            key: "name",
+            val: this.query
+          },
           populate: { path: "parent" },
           limit: this.limit,
           page: this.page
         }
       });
-
       this.productList = res.data;
-      console.log(this.productList);
-
-      const res2 = await this.$http.get("/rest/products/count/page");
+      const res2 = await this.$http({
+        method: "GET",
+        url: "/rest/products/count/page",
+        params: {
+          match: {
+            key: "name",
+            val: this.query
+          },
+          populate: { path: "parent" },
+          limit: this.limit,
+          page: this.page
+        }
+      });
       this.total = res2.data;
     },
     async handleEdit(id) {

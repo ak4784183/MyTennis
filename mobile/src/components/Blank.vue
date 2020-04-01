@@ -1,7 +1,10 @@
 <template>
-  <div class="d-flex jc-center ai-center py-6">
-    <i class="iconfont icon-fabu fs-lx mr-1"></i>
-    <span class="fs-xxl">
+  <div class="d-flex flex-coloum jc-between ai-center py-6 text-tomato">
+    <i
+      class="iconfont icon-meiyoudingdan-01 fs-lxx 
+"
+    ></i>
+    <span class="fs-xxl mt-3">
       暂无内容
     </span>
   </div>

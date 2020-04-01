@@ -1,6 +1,18 @@
 <template>
   <div>
-    <el-table :data="cateList" stripe>
+    <el-row>
+      <el-input
+        placeholder="输入球员中文名搜索"
+        v-model="query"
+        class="search-input"
+        style="width:23rem;margin-right:1rem;"
+      >
+      </el-input>
+      <el-button type="primary" icon="el-icon-search" @click="fetch"
+        >搜索</el-button
+      >
+    </el-row>
+    <el-table :data="list" stripe>
       <el-table-column prop="cname" label="球员名称"> </el-table-column>
       <el-table-column label="头像">
         <template slot-scope="scope">
@@ -28,22 +40,72 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="text-align:center;margin-top:1rem;">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="limit"
+        @prev-click="page -= 1"
+        @next-click="page += 1"
+        @current-change="val => (page = val - 1)"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      cateList: []
+      query: "",
+      total: 0,
+      limit: 10,
+      page: 0,
+      list: []
     };
   },
   created() {
     this.fetch();
   },
+  watch: {
+    query() {
+      if (this.query == "") {
+        this.fetch();
+      }
+    },
+    page() {
+      this.fetch();
+    }
+  },
   methods: {
     async fetch() {
-      const res = await this.$http.get("/rest/players");
-      this.cateList = res.data;
+      this.list = (
+        await this.$http({
+          method: "GET",
+          url: "/rest/players",
+          params: {
+            match: {
+              key: "cname",
+              val: this.query
+            },
+            limit: this.limit,
+            page: this.page
+          }
+        })
+      ).data;
+      this.total = (
+        await this.$http({
+          method: "GET",
+          url: "/rest/players/count/page",
+          params: {
+            match: {
+              key: "cname",
+              val: this.query
+            }
+          }
+        })
+      ).data;
     },
     async handleEdit(id) {
       this.$router.push(`edit/${id}`);

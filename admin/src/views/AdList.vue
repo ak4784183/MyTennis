@@ -38,8 +38,6 @@ export default {
   methods: {
     async fetch() {
       const res = await this.$http.get("/rest/ads");
-      console.log(res);
-
       this.cateList = res.data;
     },
     async handleEdit(id) {

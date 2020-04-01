@@ -1,15 +1,16 @@
 <template>
   <div>
-    <el-row
-      ><el-input
+    <el-row>
+      <el-input
         placeholder="输入文章标题搜索"
         v-model="query"
         class="search-input"
         style="width:23rem;margin-right:1rem;"
-        @keyup.native="queryItems"
       >
       </el-input>
-      <el-button type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="fetch"
+        >搜索</el-button
+      >
     </el-row>
     <el-table :data="articleList" stripe>
       <el-table-column prop="title" label="文章标题"></el-table-column>
@@ -47,11 +48,11 @@
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="this.total"
+        :total="total"
         :page-size="limit"
         @prev-click="page -= 1"
         @next-click="page += 1"
-        @current-change="handlePageIndex"
+        @current-change="val => (page = val - 1)"
       >
       </el-pagination>
     </div>
@@ -63,7 +64,7 @@ export default {
     return {
       query: "",
       page: 0,
-      limit: 8,
+      limit: 10,
       total: 0,
       articleList: []
     };
@@ -72,6 +73,11 @@ export default {
     this.fetch();
   },
   watch: {
+    query() {
+      if (this.query == "") {
+        this.fetch();
+      }
+    },
     page() {
       this.fetch();
     }
@@ -82,6 +88,10 @@ export default {
         method: "GET",
         url: "/rest/articles",
         params: {
+          match: {
+            key: "title",
+            val: this.query
+          },
           populate: {
             path: "category"
           },
@@ -90,8 +100,16 @@ export default {
         }
       });
       this.articleList = res.data;
-
-      const res2 = await this.$http.get("/rest/articles/count/page");
+      const res2 = await this.$http({
+        method: "GET",
+        url: "/rest/articles/count/page",
+        params: {
+          match: {
+            key: "title",
+            val: this.query
+          }
+        }
+      });
       this.total = res2.data;
     },
     async handleEdit(id) {
@@ -118,21 +136,6 @@ export default {
             message: "已取消删除"
           });
         });
-    },
-    handlePageIndex(val) {
-      this.page = val - 1;
-    },
-    async queryItems() {
-      if (this.query === "") {
-        this.fetch();
-      } else {
-        const res = await this.$http.get("/rest/articles", {
-          params: {
-            title: this.query
-          }
-        });
-        this.articleList = res.data;
-      }
     }
   }
 };

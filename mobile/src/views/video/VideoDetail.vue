@@ -7,7 +7,7 @@
     </MyHeader>
     <div class="video-wrap bg-dark">
       <video-player
-        v-if="playerOptions.poster"
+        v-if="playerOptions.sources[2].src != ''"
         class="video-player vjs-custom-skin"
         ref="videoPlayer"
         :playsinline="true"
@@ -415,9 +415,15 @@ export default {
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [
           {
-            type: "video/ogg",
-            type: "video/webm",
             type: "video/mp4", //这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
+            src: "" //url地址
+          },
+          {
+            type: "video/ogg",
+            src: "" //url地址
+          },
+          {
+            type: "video/webm",
             src: "" //url地址
           }
         ],
@@ -459,7 +465,9 @@ export default {
   methods: {
     async init() {
       this.video = await this.fetchVideo();
-      this.playerOptions.sources[0].src = this.video.url;
+      this.playerOptions.sources.forEach(item => {
+        item.src = this.video.url;
+      });
       this.playerOptions.poster = this.video.cover;
       this.moreList = await this.fetchVideos();
       this.video.reads = await this.setReads(

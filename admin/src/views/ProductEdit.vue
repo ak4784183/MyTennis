@@ -28,7 +28,7 @@
         ></el-input-number>
       </el-form-item>
       <el-form-item label="装备名称">
-        <el-input type="text" v-model="model.name"></el-input>
+        <el-input type="text" v-model.trim="model.name"></el-input>
       </el-form-item>
       <el-form-item laber="展示封面图">
         <el-upload
@@ -56,7 +56,7 @@
         ></VueEditor>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit" :disabled="isValid">{{
           id ? "保存" : "发布"
         }}</el-button>
         <el-button type="danger" @click.prevent="$router.back()"
@@ -81,10 +81,18 @@ export default {
     }
     this.fetchEquipTypes();
   },
+  computed: {
+    isValid() {
+      return this.model.parent.length == 0 && this.model.title == "";
+    }
+  },
   data() {
     return {
       equipTypes: [],
-      model: {}
+      model: {
+        title: "",
+        parent: []
+      }
     };
   },
   methods: {

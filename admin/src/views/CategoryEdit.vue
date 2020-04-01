@@ -7,7 +7,7 @@
     >
       <h1>{{ id ? "编辑" : "新建" }}文章分类</h1>
       <el-form-item label="名称">
-        <el-input type="text" v-model="model.title"></el-input>
+        <el-input type="text" v-model.trim="model.title"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit" :disabled="isValid">{{

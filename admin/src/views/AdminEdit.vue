@@ -8,13 +8,13 @@
     >
       <h1>{{ id ? "编辑" : "添加" }}管理员</h1>
       <el-form-item label="用户名">
-        <el-input type="text" v-model="model.username"></el-input>
+        <el-input type="text" v-model.trim="model.username"></el-input>
       </el-form-item>
       <el-form-item label="密码">
-        <el-input type="password" v-model="model.password"></el-input>
+        <el-input type="password" v-model.trim="model.password"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit" :disabled="isValid">{{
           id ? "保存" : "添加"
         }}</el-button>
         <el-button type="danger" @click.prevent="$router.back()"
@@ -38,6 +38,11 @@ export default {
     return {
       model: {}
     };
+  },
+  computed: {
+    isValid() {
+      return !(this.model.username && this.model.password);
+    }
   },
   methods: {
     async fetch() {

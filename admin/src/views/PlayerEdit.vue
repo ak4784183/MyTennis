@@ -138,7 +138,7 @@
         ></el-input-number>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit" :disabled="isValid">{{
           id ? "保存" : "添加"
         }}</el-button>
         <el-button type="danger" @click.prevent="$router.back()"
@@ -163,7 +163,9 @@ export default {
   },
   data() {
     return {
-      model: {},
+      model: {
+        cname: ""
+      },
       countrys: [],
       articles: [],
       videos: []
@@ -172,6 +174,9 @@ export default {
   computed: {
     retire() {
       return this.model.retire;
+    },
+    isValid() {
+      return this.model.cname == "";
     }
   },
   watch: {

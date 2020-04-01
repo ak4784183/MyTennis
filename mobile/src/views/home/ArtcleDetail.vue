@@ -22,38 +22,6 @@
         :class="collections.length > 0 ? 'text-orange' : 'text-white'"
       ></i>
     </SwiperHeader>
-    <!-- <div class="header-wrap w-100 h100 bg-dark text-white d-flex flex-coloum">
-      <div class="flex-1 d-flex jc-between ai-center px-2 pt-2">
-        <i class="iconfont icon-fanhui fs-xxl" @click="$router.back()"></i>
-        <span class="fs-xl letter-s1 fw" v-if="article.category">{{
-          article.category.title
-        }}</span>
-        <i
-          class="iconfont icon-star fs-xxl"
-          @click="articleCollet"
-          :class="collections.length > 0 ? 'text-orange' : 'text-white'"
-        ></i>
-      </div>
-      <div class="navbar w-100 h50 d-flex fs-l px-5 letter-s1">
-        <div class="flex-1 d-flex jc-around ai-center" @click="active = 0">
-          <span
-            class="child"
-            :class="active === 0 ? 'fw text-white' : 'text-grey'"
-          >
-            正文
-          </span>
-        </div>
-        <div class="flex-1 d-flex jc-around ai-center" @click="active = 1">
-          <span
-            class="child"
-            :class="active === 1 ? 'active-white' : ''"
-            v-if="article.commends"
-          >
-            评论({{ article.commends.length }})
-          </span>
-        </div>
-      </div>
-    </div> -->
     <div class="articleDetail-main flex-1" v-if="article.content">
       <swiper
         :options="{ autoHeight: true }"
@@ -151,9 +119,7 @@
               </div>
             </li>
           </ul>
-          <div v-else>
-            暂无评论
-          </div>
+          <MyBlankPage v-else></MyBlankPage>
           <div
             class="loading-box d-flex jc-center ai-center py-3"
             v-if="loading"
@@ -162,7 +128,7 @@
             <span class="text-dark fw">加载中...</span>
           </div>
           <div class="no-more d-flex jc-center ai-center py-3" v-if="noMore">
-            <span class="text-dark fw">没有更多了~</span>
+            <span class="text-dark fw">已加载全部~</span>
           </div>
         </swiper-slide>
       </swiper>

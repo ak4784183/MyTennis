@@ -34,7 +34,7 @@ mongoose.connect("mongodb://localhost/tennis",{
   useUnifiedTopology: true
 })
 mongoose.connection.on('open',()=>{
-  console.log("http://localhost:3000");
+  console.log("http://localhost:5000");
 })
 
 require('require-all')({
@@ -56,5 +56,5 @@ app.use(async(err,req,res,next)=>{
   })
 })
 
-app.listen(3000);
+app.listen(5000);
 module.exports = app;

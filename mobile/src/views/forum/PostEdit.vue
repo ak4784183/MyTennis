@@ -187,7 +187,6 @@ export default {
           }
         });
     } else {
-      this.removeTempImgs();
       next();
     }
   }

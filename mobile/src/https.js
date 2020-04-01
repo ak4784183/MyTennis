@@ -4,7 +4,8 @@ import { Toast } from "mint-ui";
 import router from './router'
 import store from './store'
 const http=axios.create({
-    baseURL:'http://localhost:3000/mobile/api/'
+    timeout: 6000,
+    baseURL:'http://localhost:5000/mobile/api/'
 })
 http.interceptors.request.use(config=>{
   store.state.preventClick=true;
@@ -27,13 +28,21 @@ http.interceptors.response.use(res=>{
             message: err.response.data.message,
             iconClass: "iconfont icon-cuowu",
             duration: 1000
-          });    
+        });    
     }
-    
     if(err.response.status==401){      
         router.push({
             name:'login'
         })
     }
+    if(err.message.includes('timeout')){   // 判断请求异常信息中是否含有超时timeout字符串
+      store.state.preventClick=false;
+      Toast({
+        message: `请求超时，请稍后再试`,
+        iconClass: "iconfont icon-cuowu",
+        duration: 1000
+      });         
+    }
+    return Promise.reject(err); 
 })
 export default http;

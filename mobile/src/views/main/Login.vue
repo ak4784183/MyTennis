@@ -17,7 +17,7 @@
           <input
             type="text"
             placeholder="Username"
-            v-model="model.username"
+            v-model.trim="model.username"
             style="color:#fff;"
           />
         </div>
@@ -26,7 +26,7 @@
           <input
             type="password"
             placeholder="Password"
-            v-model="model.password"
+            v-model.trim="model.password"
             style="color:#fff;"
           />
         </div>
@@ -34,7 +34,7 @@
       <mt-button
         size="large"
         class="bg-blue mt-5 text-white"
-        @click="goRegister"
+        @click="routeByName('register')"
         ><i class="iconfont icon-zhuce fs-xxl mr-1"></i>注册</mt-button
       >
 
@@ -67,28 +67,15 @@ export default {
     }
   },
   methods: {
-    goRegister() {
-      this.$router.push("/register");
-    },
     async login() {
-      if (this.isLogin === true) {
-        return;
-      }
-      this.isLogin = true;
       const { username, password } = this.model;
       if (username === "" || password === "") {
-        Toast({
-          message: "账户名或密码不能为空",
-          iconClass: "iconfont icon-cuowu",
-          duration: 1000
-        });
-        this.isLogin = false;
+        this.AlertError("账户名或密码不能为空");
         return;
       } else {
-        const res = await this.$http.post("/login", this.model);
-        this.isLogin = false;
-        if (res.data) {
-          const { name, id, m_token } = res.data;
+        const res = await this.post("login", this.model);
+        if (res) {
+          const { name, id, m_token } = res;
           localStorage.setItem("m_token", m_token || "");
           this.setItem({
             key: "m_userInfo",

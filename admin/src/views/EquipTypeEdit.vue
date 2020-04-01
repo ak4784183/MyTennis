@@ -18,10 +18,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="分类名称">
-        <el-input type="text" v-model="model.title"></el-input>
+        <el-input type="text" v-model.trim="model.title"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit" :disabled="isValid">{{
           id ? "保存" : "添加"
         }}</el-button>
         <el-button type="danger" @click.prevent="$router.back()"
@@ -42,10 +42,17 @@ export default {
     }
     this.fetchEquipTypes();
   },
+  computed: {
+    isValid() {
+      return this.model.title == "";
+    }
+  },
   data() {
     return {
       equiptypes: [],
-      model: {}
+      model: {
+        title: ""
+      }
     };
   },
   methods: {

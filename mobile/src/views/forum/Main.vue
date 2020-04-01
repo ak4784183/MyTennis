@@ -1,8 +1,6 @@
 <template>
   <div class="forum-page">
-    <MyHeader title="论坛">
-      <i class="iconfont icon-gengduo fs-xl"></i>
-    </MyHeader>
+    <MyHeader title="论坛" closeBack> </MyHeader>
     <div class="main">
       <MySearch @inputSearch="searchPost"></MySearch>
       <div
@@ -136,6 +134,7 @@ export default {
     // },
     async searchPost(text) {
       this.search = text;
+      this.page = 0;
       this.posts = await this.fecthPost();
     }
   }
