@@ -5,7 +5,7 @@ import router from './router'
 import store from './store'
 const http=axios.create({
     timeout: 6000,
-    baseURL:'http://localhost:5000/mobile/api/'
+    baseURL:process.env.VUE_APP_API_URL||'/mobile/api'
 })
 http.interceptors.request.use(config=>{
   store.state.preventClick=true;

@@ -5,13 +5,13 @@ const Schema=new mongoose.Schema({
     },
     url:{
         type:String
+    },
+    link:{
+        type:String
     }
 },
 {
-    timestamps:{
-        createdAt:'create_at',
-        updatedAt:'update_at'
-    }
+    timestamps:true
 })
 
 module.exports=mongoose.model('Ad',Schema)

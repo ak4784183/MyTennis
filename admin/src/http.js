@@ -2,7 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import router from './router'
 const http=axios.create({
-  baseURL:'http://tennisclub:5000/admin/api'
+  baseURL:process.env.VUE_APP_API_URL||'/admin/api'
 })
 http.interceptors.request.use(config=>{
   if(localStorage.getItem('token')){

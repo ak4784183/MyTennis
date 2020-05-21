@@ -13,11 +13,11 @@ const Schema=new mongoose.Schema({
         require:true
     },
     date:Date,
-    host:[{
+    host:[{  //关联球员
         type:mongoose.SchemaTypes.ObjectId,
         ref:'Player'
     }],
-    guest:[{ 
+    guest:[{ //关联球员
         type:mongoose.SchemaTypes.ObjectId,
         ref:'Player'
     }],
@@ -29,10 +29,11 @@ const Schema=new mongoose.Schema({
         type:Number,
         default:0
     },
-    winner:{ 
+    video:{ //关联视频
         type:mongoose.SchemaTypes.ObjectId,
-        ref:'Player'
-    }
+        ref:'Video'
+    },
+
 },{
     timestamps:true
 })

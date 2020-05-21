@@ -1,18 +1,11 @@
 <template>
   <div>
     <el-table :data="userList" stripe>
-      <el-table-column prop="username" label="用户名"> </el-table-column>
+      <el-table-column prop="username" label="管理员"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="medium " @click="handleEdit(scope.row['_id'])"
-            >编辑</el-button
-          >
-          <el-button
-            size="medium"
-            type="danger"
-            @click="handleDelete(scope.row['_id'])"
-            >删除</el-button
-          >
+          <el-button size="medium " @click="handleEdit(scope.row['_id'])">编辑</el-button>
+          <el-button size="medium" type="danger" @click="handleDelete(scope.row['_id'])">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

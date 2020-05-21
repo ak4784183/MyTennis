@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form
-      style="width:50%;"
+      style="width: 50%;"
       label-width="100px"
       @submit.native.prevent="save"
     >
@@ -18,7 +18,7 @@
           active-text="单打"
           inactive-text="双打"
           @change="
-            val => {
+            (val) => {
               model.host = [];
               model.guest = [];
             }
@@ -63,7 +63,7 @@
           >
           </el-option>
         </el-select>
-        <span style="margin:0 1rem;">VS</span>
+        <span style="margin: 0 1rem;">VS</span>
         <el-select
           v-model="model.guest"
           filterable
@@ -89,7 +89,7 @@
           size="larger"
           placeholder="host比分"
         ></el-input-number>
-        <span style="margin:0 1rem;"> </span>
+        <span style="margin: 0 1rem;"> </span>
         <el-input-number
           v-model="model.guestscore"
           :step="1"
@@ -107,7 +107,17 @@
         >
         </el-date-picker>
       </el-form-item>
-
+      <el-form-item>
+        <el-select v-model="model.video" filterable placeholder="比赛视频">
+          <el-option
+            v-for="(item, index) in videos"
+            :key="index"
+            :label="item.label"
+            :value="item['_id']"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit" :disabled="isValid">{{
           id ? "保存" : "添加"
@@ -122,7 +132,7 @@
 <script>
 export default {
   props: {
-    id: {}
+    id: {},
   },
   created() {
     if (this.id) {
@@ -130,6 +140,7 @@ export default {
     }
     this.fetchMatch();
     this.fetchPlayer();
+    this.fetchVideos();
   },
   computed: {
     isValid() {
@@ -137,7 +148,8 @@ export default {
       if (
         obj.host &&
         obj.host.length > 0 &&
-        obj.guest && obj.guest.length > 0 &&
+        obj.guest &&
+        obj.guest.length > 0 &&
         obj.match &&
         obj.date
       ) {
@@ -145,13 +157,14 @@ export default {
       } else {
         return true;
       }
-    }
+    },
   },
   data() {
     return {
       model: {},
       matches: [],
-      players: []
+      videos: [],
+      players: [],
     };
   },
   methods: {
@@ -159,12 +172,28 @@ export default {
       const res = await this.$http.get(`rest/contests/${this.id}`);
       this.model = res.data;
     },
+    async fetchVideos() {
+      const res = await this.$http({
+        method: "GET",
+        url: "rest/videos",
+        params: {
+          where: {
+            type: "比赛",
+          },
+        },
+      });
+
+      this.videos = res.data.map((v) => {
+        v.label = v.title;
+        return v;
+      });
+    },
     async fetchPlayer() {
       const res = await this.$http({
         method: "GET",
-        url: "rest/players"
+        url: "rest/players",
       });
-      this.players = res.data.map(v => {
+      this.players = res.data.map((v) => {
         v.label = v.cname;
         return v;
       });
@@ -172,9 +201,9 @@ export default {
     async fetchMatch() {
       const res = await this.$http({
         method: "GET",
-        url: "rest/matches"
+        url: "rest/matches",
       });
-      this.matches = res.data.map(v => {
+      this.matches = res.data.map((v) => {
         v.label = v.title;
         return v;
       });
@@ -187,12 +216,12 @@ export default {
       }
       this.$message({
         message: `${this.id ? "修改" : "新建"}成功`,
-        type: "success"
+        type: "success",
       });
       this.$router.push({
-        name: "contestList"
+        name: "contestList",
       });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -5,7 +5,7 @@
         placeholder="输入球员中文名搜索"
         v-model="query"
         class="search-input"
-        style="width:23rem;margin-right:1rem;"
+        style="width: 23rem; margin-right: 1rem;"
       >
       </el-input>
       <el-button type="primary" icon="el-icon-search" @click="fetch"
@@ -17,7 +17,11 @@
       <el-table-column label="头像">
         <template slot-scope="scope">
           <div>
-            <img :src="scope.row['avatar']" width="100" height="100" />
+            <img
+              :src="scope.row['avatar'] ? scope.row['avatar'] : playerimg"
+              width="100"
+              height="100"
+            />
           </div>
         </template>
       </el-table-column>
@@ -40,7 +44,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div style="text-align:center;margin-top:1rem;">
+    <div style="text-align: center; margin-top: 1rem;">
       <el-pagination
         background
         layout="prev, pager, next"
@@ -48,7 +52,7 @@
         :page-size="limit"
         @prev-click="page -= 1"
         @next-click="page += 1"
-        @current-change="val => (page = val - 1)"
+        @current-change="(val) => (page = val - 1)"
       >
       </el-pagination>
     </div>
@@ -62,7 +66,7 @@ export default {
       total: 0,
       limit: 10,
       page: 0,
-      list: []
+      list: [],
     };
   },
   created() {
@@ -76,7 +80,7 @@ export default {
     },
     page() {
       this.fetch();
-    }
+    },
   },
   methods: {
     async fetch() {
@@ -87,11 +91,11 @@ export default {
           params: {
             match: {
               key: "cname",
-              val: this.query
+              val: this.query,
             },
             limit: this.limit,
-            page: this.page
-          }
+            page: this.page,
+          },
         })
       ).data;
       this.total = (
@@ -101,9 +105,9 @@ export default {
           params: {
             match: {
               key: "cname",
-              val: this.query
-            }
-          }
+              val: this.query,
+            },
+          },
         })
       ).data;
     },
@@ -115,23 +119,23 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-        center: true
+        center: true,
       })
         .then(async () => {
           await this.$http.delete(`/rest/players/${item["_id"]}`);
           this.fetch();
           this.$message({
             type: "success",
-            message: "删除成功!"
+            message: "删除成功!",
           });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="forum-page">
-    <MyHeader title="论坛" closeBack> </MyHeader>
+    <MyHeader title="论坛" closeBack></MyHeader>
     <div class="main">
       <MySearch @inputSearch="searchPost"></MySearch>
       <div
@@ -27,13 +27,9 @@
                 :src="item.user.avatar ? item.user.avatar : defaultHeader"
                 class="w40 h40 mr-2 b-radius-50"
               />
-              <div
-                class="flex-1 bg-white d-flex flex-coloum jc-center ai-start"
-              >
-                <span class="fs-l flex-1"> {{ item.user.nickname }}</span>
-                <span class="text-grey fs-m  h-50">
-                  {{ item.createdAt | timeAgo }}</span
-                >
+              <div class="flex-1 bg-white d-flex flex-coloum jc-center ai-start">
+                <span class="fs-l flex-1">{{ item.user.nickname }}</span>
+                <span class="text-grey fs-m h-50">{{ item.createdAt | timeAgo }}</span>
               </div>
             </div>
             <div class="content mt-2">
@@ -42,11 +38,11 @@
             <div class="d-flex jc-start ai-center py-2">
               <div class="mr-4 d-flex ai-center">
                 <i class="iconfont icon-pinglun mr-1 fs-xxl"></i>
-                <span class="fs-m">{{ item.counts.length }} </span>
+                <span class="fs-m">{{ item.counts.length }}</span>
               </div>
               <div class="fs-m d-flex ai-center">
                 <i class="iconfont icon-dianzan mr-1 fs-xl"></i>
-                <span class="fs-m">{{ item.fabulous.length }} </span>
+                <span class="fs-m">{{ item.fabulous.length }}</span>
               </div>
             </div>
           </div>
@@ -78,14 +74,14 @@ export default {
       }
     };
   },
-  computed: {
-    limit() {
-      return this.option.limit;
-    },
-    page() {
-      return this.option.page;
-    }
-  },
+  // computed: {
+  //   limit() {
+  //     return this.option.limit;
+  //   },
+  //   page() {
+  //     return this.option.page;
+  //   }
+  // },
   async created() {
     this.posts = await this.fecthPost();
   },

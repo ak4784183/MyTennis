@@ -1,7 +1,7 @@
 <template>
   <div class="videoList-page">
     <MyHeader title="视频" closeBack></MyHeader>
-    <div class="main ">
+    <div class="main">
       <MySearch @inputSearch="searchVideo"></MySearch>
       <MyLoadMore
         v-if="videos.length > 0"
@@ -11,11 +11,11 @@
       >
         <li class="pb-2 item" v-for="item in videos" :key="item['_id']">
           <div class="wrap" @click="routeByName('videoDetail', item['_id'])">
-            <div class="cover mb-2" style="height:13rem;">
+            <div class="cover mb-2" style="height: 13rem;">
               <img :src="item.cover" class="w-100 h-100" />
             </div>
             <p class="title fw px-2">
-              <span class="text-tomato">[{{ item.label }}]</span>
+              <span class="text-tomato">[{{ item.type }}]</span>
               {{ item.title }}
             </p>
             <div class="d-flex text-dark-6 px-2">
@@ -42,7 +42,7 @@
 import MySearch from "../../components/MySearch";
 export default {
   components: {
-    MySearch
+    MySearch,
   },
   data() {
     return {
@@ -50,7 +50,7 @@ export default {
       loading: false,
       noMore: false,
       limit: 10,
-      page: 0
+      page: 0,
     };
   },
   async created() {
@@ -60,15 +60,15 @@ export default {
     async fetchVideos() {
       const res = await this.fetch("rest/videos", {
         populate: {
-          path: "commends"
+          path: "commends",
         },
         match: {
           key: "title",
-          val: this.search
+          val: this.search,
         },
         limit: this.limit,
         page: this.page,
-        sort: { _id: -1 }
+        sort: { _id: -1 },
       });
       return res;
     },
@@ -97,8 +97,8 @@ export default {
           this.noMore = true;
         }
       }, 1500);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

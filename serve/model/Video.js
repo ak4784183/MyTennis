@@ -8,7 +8,7 @@ const Schema=new mongoose.Schema({
         type:String
     },
     author:String,
-    label:String,
+    type:String,
     url:{
         type:String,
         required:true

@@ -6,7 +6,7 @@
         <input
           type="text"
           class="ml-1 flex-1 letter-s1"
-          v-model="search"
+          v-model.trim="search"
           placeholder="搜索"
         />
         <span
@@ -29,19 +29,19 @@
 export default {
   data() {
     return {
-      search: ""
+      search: "",
     };
   },
   watch: {
     async search() {
       await this.inputSearch();
-    }
+    },
   },
   methods: {
     async inputSearch() {
       await this.$emit("inputSearch", this.search);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss"></style>

@@ -16,7 +16,7 @@
       >
       </el-date-picker>
       <el-select
-        style="margin-left:2rem;"
+        style="margin-left: 2rem;"
         v-model="matchid"
         filterable
         clearable
@@ -46,25 +46,25 @@
       <el-table-column
         ><template slot-scope="scope">
           <div
-            style="display:flex;align-items: center;justify-content: center;"
+            style="display: flex; align-items: center; justify-content: center;"
           >
             <div>
               <img
                 v-for="item in scope.row.host"
                 :key="item['_id']"
-                :src="item.avatar"
+                :src="item.avatar ? item.avatar : playerimg"
                 width="50"
                 height="50"
-                style="margin-right:12px;"
+                style="margin-right: 12px;"
               />
             </div>
             VS
             <div>
               <img
-                style="margin-left:12px;"
+                style="margin-left: 12px;"
                 v-for="item in scope.row.guest"
                 :key="item['_id']"
-                :src="item.avatar"
+                :src="item.avatar ? item.avatar : playerimg"
                 width="50"
                 height="50"
               />
@@ -86,7 +86,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div style="text-align:center;margin-top:1rem;">
+    <div style="text-align: center; margin-top: 1rem;">
       <el-pagination
         background
         layout="prev, pager, next"
@@ -94,7 +94,7 @@
         :page-size="limit"
         @prev-click="page -= 1"
         @next-click="page += 1"
-        @current-change="val => (page = val - 1)"
+        @current-change="(val) => (page = val - 1)"
       >
       </el-pagination>
     </div>
@@ -111,7 +111,7 @@ export default {
       matches: [],
       matchid: "",
       duration: null,
-      cateList: []
+      cateList: [],
     };
   },
   watch: {
@@ -126,7 +126,7 @@ export default {
     },
     page() {
       this.fetch();
-    }
+    },
   },
   created() {
     this.fetch();
@@ -147,28 +147,28 @@ export default {
         params: {
           where: option,
           populate: {
-            path: "host guest match"
+            path: "host guest match",
           },
           limit: this.limit,
-          page: this.page
-        }
+          page: this.page,
+        },
       });
       this.cateList = res.data;
       const _total = await this.$http({
         method: "GET",
         url: "/rest/contests/count/page",
         params: {
-          where: option
-        }
+          where: option,
+        },
       });
       this.total = _total.data;
     },
     async fetchMatch() {
       const res = await this.$http({
         method: "GET",
-        url: "rest/matches"
+        url: "rest/matches",
       });
-      this.matches = res.data.map(v => {
+      this.matches = res.data.map((v) => {
         v.label = v.title;
         return v;
       });
@@ -181,24 +181,24 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-        center: true
+        center: true,
       })
         .then(async () => {
           await this.$http.delete(`/rest/contests/${item["_id"]}`);
           this.fetch();
           this.$message({
             type: "success",
-            message: "删除成功!"
+            message: "删除成功!",
           });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

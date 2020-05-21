@@ -1,10 +1,6 @@
 <template>
   <div>
-    <el-form
-      style="width:50%;"
-      label-width="100px"
-      @submit.native.prevent="save"
-    >
+    <el-form style="width:50%;" label-width="100px" @submit.native.prevent="save">
       <h1>{{ id ? "编辑" : "新建" }}广告列表</h1>
       <el-form-item label="宣传标题">
         <el-input type="text" v-model="model.title"></el-input>
@@ -21,13 +17,16 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
+      <el-form-item label="广告链接">
+        <el-input type="text" v-model="model.link" placeholder="请输入标准链接,如http://www.baidu.com"></el-input>
+      </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit">
+          {{
           id ? "保存" : "添加"
-        }}</el-button>
-        <el-button type="danger" @click.prevent="$router.back()"
-          >取消</el-button
-        >
+          }}
+        </el-button>
+        <el-button type="danger" @click.prevent="$router.back()">取消</el-button>
       </el-form-item>
     </el-form>
   </div>

@@ -2,7 +2,7 @@ import moment from "moment";
 const MIXIN={
     data() {
         return {
-            
+            playerimg:require('./assets/images/player.png')
         }
     },
     computed: {

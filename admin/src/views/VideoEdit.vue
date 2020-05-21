@@ -1,11 +1,6 @@
 <template>
   <div>
-    <el-form
-      style="width:50%;"
-      label-width="100px"
-      @submit.native.prevent="save"
-      v-if="model"
-    >
+    <el-form style="width: 50%;" label-width="100px" @submit.native.prevent="save" v-if="model">
       <h1>{{ id ? "编辑" : "添加" }}网球视频</h1>
       <el-form-item label="视频标题">
         <el-input type="text" v-model="model.title"></el-input>
@@ -40,9 +35,7 @@
             :src="model.url"
             class="avatar"
             controls="controls"
-          >
-            您的浏览器不支持视频播放
-          </video>
+          >您的浏览器不支持视频播放</video>
           <i
             v-else-if="model.url == '' && videoFlag == false"
             class="el-icon-plus avatar-uploader-icon"
@@ -55,25 +48,24 @@
           type="circle"
           :percentage="videoUploadPercent"
           style="margin-top:30px;"
-        ></el-progress> -->
+        ></el-progress>-->
       </el-form-item>
-      <el-form-item label="标签">
-        <el-input
-          type="text"
-          v-model="model.label"
-          placeholder="不超过6个字符"
-        ></el-input>
+
+      <el-form-item label="类型">
+        <el-radio v-model="model.type" label="比赛">比赛</el-radio>
+        <el-radio v-model="model.type" label="训练">训练</el-radio>
+        <el-radio v-model="model.type" label="其他">其他</el-radio>
       </el-form-item>
       <el-form-item label="简介">
         <el-input type="text" v-model="model.intro"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit">{{
+        <el-button type="primary" native-type="submit">
+          {{
           id ? "保存" : "发布"
-        }}</el-button>
-        <el-button type="danger" @click.prevent="$router.back()"
-          >取消</el-button
-        >
+          }}
+        </el-button>
+        <el-button type="danger" @click.prevent="$router.back()">取消</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -92,7 +84,8 @@ export default {
     return {
       model: {
         title: "",
-        url: ""
+        url: "",
+        type: "比赛"
       },
       videoFlag: false
     };
@@ -120,10 +113,11 @@ export default {
     },
     uploadVideoProcess(event, file, fileList) {
       this.videoFlag = true;
-      console.log(file);
+      console.log(file, fileList);
       // this.videoUploadPercent = file.percentage.toFixed(0);
     },
     handleVideoSuccess(res, file) {
+      console.log(file);
       //获取上传图片地址
       this.videoFlag = false;
       this.videoUploadPercent = 0;

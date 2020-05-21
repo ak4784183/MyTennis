@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6721580",
+      "name": "左边-填充",
+      "font_class": "zuobian-tianchong",
+      "unicode": "e830",
+      "unicode_decimal": 59440
+    },
+    {
       "icon_id": "1314991",
       "name": "没有订单",
       "font_class": "meiyoudingdan-01",

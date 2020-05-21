@@ -1,9 +1,9 @@
 <template>
   <div class="video-page">
     <MyHeader title="视频详情">
-      <router-link tag="i" :to="{ name: 'video' }"
-        ><i class="iconfont icon-shouye fs-xl"></i
-      ></router-link>
+      <router-link tag="i" :to="{ name: 'video' }">
+        <i class="iconfont icon-shouye fs-xl"></i>
+      </router-link>
     </MyHeader>
     <div class="video-wrap bg-dark">
       <video-player
@@ -22,19 +22,19 @@
         <div class="flex-1 px-5 h-100 d-flex jc-start ai-center">
           <span
             :class="active === 0 ? 'active' : 'normal'"
-            class=" h-70 d-flex letter-s1 ai-center mr-5 fs-l"
+            class="h-70 d-flex letter-s1 ai-center mr-5 fs-l"
             @click="active = 0"
-            >简介</span
-          >
+          >简介</span>
           <span
             :class="active === 1 ? 'active' : 'normal'"
             class="h-70 letter-s1 d-flex ai-center fs-l"
             @click="active = 1"
             v-if="video.commends"
-            >评论{{
-              video.commends.length > 0 ? video.commends.length : ""
-            }}</span
           >
+            评论{{
+            video.commends.length > 0 ? video.commends.length : ""
+            }}
+          </span>
         </div>
         <i
           :class="collections.length === 0 ? 'text-dark-6' : 'text-tomato'"
@@ -55,32 +55,31 @@
         >
           <swiper-slide key="0">
             <div class="p-2 bb">
-              <div class="d-flex ">
+              <div class="d-flex">
                 <p
                   class="fw flex-1 fs-l letter-s1"
                   :class="showInfo ? '' : 'text-over'"
-                >
-                  {{ video.title }}
-                </p>
+                >{{ video.title }}</p>
                 <i
                   class="ml-1 fs-xxl iconfont"
                   :class="showInfo ? 'icon-shang' : 'icon-weibiaoti35'"
                   @click="showInfo = !showInfo"
                 ></i>
               </div>
-              <div class="d-flex fs-m text-dark-6 ">
-                <span class="mr-3 d-flex ai-center"
-                  ><i class="fs-s mr-1 iconfont icon-bofang"></i
-                  >{{ video.reads | formatReads }}</span
-                >
-                <span class="mr-3 d-flex ai-center"
-                  ><i class="fs-m mr-1 iconfont icon-pinglun"></i>0
+              <div class="d-flex fs-m text-dark-6">
+                <span class="mr-3 d-flex ai-center">
+                  <i class="fs-s mr-1 iconfont icon-bofang"></i>
+                  {{ video.reads | formatReads }}
+                </span>
+                <span class="mr-3 d-flex ai-center">
+                  <i class="fs-m mr-1 iconfont icon-pinglun"></i>0
                 </span>
                 <span class="mr-3">{{ video.createdAt | formatDay }}</span>
-                <span
-                  ><i class="iconfont icon-fabu fs-m"></i> -
-                  {{ video.author }}</span
-                >
+                <span>
+                  <i class="iconfont icon-fabu fs-m"></i>
+                  -
+                  {{ video.author }}
+                </span>
               </div>
               <p class="fs-l letter-s1" v-show="showInfo">{{ video.intro }}</p>
             </div>
@@ -95,20 +94,18 @@
                     >
                       <img :src="item.cover" class="more-img w-30 h70" />
                       <div class="more-content px-2 w-70 d-flex flex-coloum">
-                        <p class="fs-m more-title text-over">
-                          {{ item.title }}
-                        </p>
-                        <span class="fs-m"
-                          ><i class="fs-m mr-1 text-dark iconfont icon-fabu"></i
-                          >{{ item.author }}</span
-                        >
+                        <p class="fs-m more-title text-over">{{ item.title }}</p>
+                        <span class="fs-m">
+                          <i class="fs-m mr-1 text-dark iconfont icon-fabu"></i>
+                          {{ item.author }}
+                        </span>
                         <div class="d-flex text-dark-6 ai-center">
-                          <span class="mr-3 d-flex ai-center fs-m"
-                            ><i class="fs-s mr-1 iconfont icon-bofang"></i
-                            >{{ item.reads | formatReads }}</span
-                          >
-                          <span class="mr-3 d-flex ai-center fs-m"
-                            ><i class="fs-m mr-1 iconfont icon-pinglun"></i>
+                          <span class="mr-3 d-flex ai-center fs-m">
+                            <i class="fs-s mr-1 iconfont icon-bofang"></i>
+                            {{ item.reads | formatReads }}
+                          </span>
+                          <span class="mr-3 d-flex ai-center fs-m">
+                            <i class="fs-m mr-1 iconfont icon-pinglun"></i>
                             {{ item.commends.length }}
                           </span>
                         </div>
@@ -126,11 +123,7 @@
               :loading="loading"
               :noMore="noMore"
             >
-              <li
-                class="px-3 pb-1 pt-3 d-flex bb"
-                v-for="(item, index) in commends"
-                :key="index"
-              >
+              <li class="px-3 pb-1 pt-3 d-flex bb" v-for="(item, index) in commends" :key="index">
                 <div class="flex-1">
                   <img
                     v-if="item.user"
@@ -140,40 +133,37 @@
                 </div>
                 <div class="w-90 pl-3">
                   <div class="h40 d-flex">
-                    <div
-                      class="flex-1 h40 d-flex flex-coloum jc-center ai-start
-                   "
-                    >
+                    <div class="flex-1 h40 d-flex flex-coloum jc-center ai-start">
                       <span
                         class="fs-m h-50 text-dark letter-s1"
                         v-if="item.user"
-                        >{{ item.user.nickname }}</span
-                      >
-                      <span class="fs-s h-50 text-dark-6">{{
+                      >{{ item.user.nickname }}</span>
+                      <span class="fs-s h-50 text-dark-6">
+                        {{
                         item.createdAt | formatDay
-                      }}</span>
+                        }}
+                      </span>
                     </div>
                     <span
                       class="fs-m letter-s1 text-right h30 text-tomato"
                       @click="replyCommend(item, index)"
-                      >回复</span
-                    >
+                    >回复</span>
                   </div>
                   <div class="fs-m mt-2">
                     <p class="letter-s1">{{ item.content }}</p>
                     <div class="d-flex ai-center jc-start mt-1">
-                      <span
-                        class="fs-s mr-3"
-                        :class="item.fabulous | IsFabulous"
-                        ><i
+                      <span class="fs-s mr-3" :class="item.fabulous | IsFabulous">
+                        <i
                           class="fs-m mr-1 iconfont icon-dianzan1"
                           @click="thumbsUp(item['_id'], index, false)"
-                        ></i
-                        >{{
-                          item.fabulous.length > 0 ? item.fabulous.length : ""
-                        }}</span
-                      >
-                      <span><i class="iconfont icon-liaotian fs-m"></i> </span>
+                        ></i>
+                        {{
+                        item.fabulous.length > 0 ? item.fabulous.length : ""
+                        }}
+                      </span>
+                      <span>
+                        <i class="iconfont icon-liaotian fs-m"></i>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -188,11 +178,10 @@
                     >
                       <span class="text-blue">立陶宛大师</span>
                       {{ child.content }}
-                    </p> -->
-                    <span class="fs-s text-blue"
-                      >共{{ item.childs.length }}条回复<i
-                        class="fs-s iconfont icon-icon-arrow-right2"
-                      ></i>
+                    </p>-->
+                    <span class="fs-s text-blue">
+                      共{{ item.childs.length }}条回复
+                      <i class="fs-s iconfont icon-icon-arrow-right2"></i>
                     </span>
                   </div>
                 </div>
@@ -214,18 +203,14 @@
           class="fs-l letter-s1 text-center ml-2 w40"
           :class="isValid ? 'text-blue' : 'text-tomato'"
           @click="submitVideoCommend"
-          >发布</span
-        >
+        >发布</span>
       </div>
     </div>
     <!-- 这里不能用v-else，不需要重新加载dom -->
     <div class="main d-flex flex-coloum" v-show="!hideCommendDetail">
       <div class="tools mb-1 px-2 d-flex h40 ai-center jc-between">
         <span class="letter-s1 fs-l">详情</span>
-        <i
-          class="iconfont icon-guanbi fs-l mr-1"
-          @click="hideCommendDetail = !hideCommendDetail"
-        ></i>
+        <i class="iconfont icon-guanbi fs-l mr-1" @click="hideCommendDetail = !hideCommendDetail"></i>
       </div>
       <div class="content">
         <div
@@ -242,31 +227,34 @@
           </div>
           <div class="w-90 pl-3">
             <div class="h40 d-flex">
-              <div
-                class="flex-1 h40 d-flex flex-coloum jc-center ai-start
-                   "
-              >
-                <span class="fs-m h-50 text-dark letter-s1">{{
+              <div class="flex-1 h40 d-flex flex-coloum jc-center ai-start">
+                <span class="fs-m h-50 text-dark letter-s1">
+                  {{
                   commend.user.nickname
-                }}</span>
-                <span class="fs-s h-50 text-dark-6">{{
+                  }}
+                </span>
+                <span class="fs-s h-50 text-dark-6">
+                  {{
                   commend.createdAt | formatDay
-                }}</span>
+                  }}
+                </span>
               </div>
             </div>
             <div class="fs-m mt-2">
               <p class="letter-s1">{{ commend.content }}</p>
               <div class="d-flex ai-center jc-start mt-1">
-                <span class="fs-s mr-3" :class="commend.fabulous | IsFabulous"
-                  ><i
+                <span class="fs-s mr-3" :class="commend.fabulous | IsFabulous">
+                  <i
                     class="fs-m mr-1 iconfont icon-dianzan1"
                     @click="thumbsUp(commend['_id'], commend['index'], false)"
-                  ></i
-                  >{{
-                    commend.fabulous.length > 0 ? commend.fabulous.length : ""
-                  }}</span
-                >
-                <span><i class="iconfont icon-liaotian fs-m"></i> </span>
+                  ></i>
+                  {{
+                  commend.fabulous.length > 0 ? commend.fabulous.length : ""
+                  }}
+                </span>
+                <span>
+                  <i class="iconfont icon-liaotian fs-m"></i>
+                </span>
               </div>
             </div>
           </div>
@@ -293,40 +281,39 @@
             </div>
             <div class="w-90 pl-3">
               <div class="h40 d-flex">
-                <div
-                  class="flex-1 h40 d-flex flex-coloum jc-center ai-start
-                   "
-                >
+                <div class="flex-1 h40 d-flex flex-coloum jc-center ai-start">
                   <span
                     class="fs-m h-50 text-dark letter-s1"
                     v-if="item.user"
-                    >{{ item.user.nickname }}</span
-                  >
-                  <span class="fs-s h-50 text-dark-6">{{
+                  >{{ item.user.nickname }}</span>
+                  <span class="fs-s h-50 text-dark-6">
+                    {{
                     item.createdAt | formatDay
-                  }}</span>
+                    }}
+                  </span>
                 </div>
               </div>
               <div class="fs-m mt-2">
                 <p class="letter-s1">
-                  <span v-if="item.reply"
-                    >回复<strong class="text-blue"
-                      >{{ item.reply.nickname }}:</strong
-                    >
+                  <span v-if="item.reply">
+                    回复
+                    <strong class="text-blue">{{ item.reply.nickname }}:</strong>
                   </span>
                   {{ item.content }}
                 </p>
                 <div class="d-flex ai-center jc-start mt-1">
-                  <span class="fs-s mr-3" :class="item.fabulous | IsFabulous"
-                    ><i
+                  <span class="fs-s mr-3" :class="item.fabulous | IsFabulous">
+                    <i
                       class="fs-m mr-1 iconfont icon-dianzan1"
                       @click="thumbsUp(item['_id'], index, true)"
-                    ></i
-                    >{{
-                      item.fabulous.length > 0 ? item.fabulous.length : ""
-                    }}</span
-                  >
-                  <span><i class="iconfont icon-liaotian fs-m"></i> </span>
+                    ></i>
+                    {{
+                    item.fabulous.length > 0 ? item.fabulous.length : ""
+                    }}
+                  </span>
+                  <span>
+                    <i class="iconfont icon-liaotian fs-m"></i>
+                  </span>
                 </div>
               </div>
             </div>
@@ -346,8 +333,7 @@
           class="fs-l letter-s1 text-center ml-2 w40"
           :class="isValid ? 'text-blue' : 'text-tomato'"
           @click="submitVideoCommend"
-          >回复</span
-        >
+        >回复</span>
       </div>
     </div>
   </div>
@@ -601,7 +587,8 @@ export default {
             reply: this.reply["_id"]
           });
           this.content = "";
-          this.page = 0;
+          this.page1 = 0;
+          this.noMore1 = false;
           this.replys = await this.fetchReplys();
         } else {
           const res = await this.post("rest/video_commend", {
@@ -609,12 +596,10 @@ export default {
             user: this.getUserId,
             content: this.content
           });
-          if (res) {
-            this.content = "";
-            this.page = 0;
-            this.noMore = false;
-            this.commends = await this.fetchCommends();
-          }
+          this.content = ""; 
+          this.page = 0;
+          this.noMore = false;
+          this.commends = await this.fetchCommends();
         }
       }
     },
